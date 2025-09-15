@@ -1,0 +1,24 @@
+image: gitpod/workspace-full
+
+tasks:
+  - name: 🚀 Auto-Build Flipkart Automation APK
+    init: |
+      echo "🎯 Gitpod workspace initializing..."
+      echo "⚡ Auto-starting build process..."
+      chmod +x setup-gitpod.sh
+      ./setup-gitpod.sh
+    command: |
+      echo "✅ Build complete! Check above for your APK download link."
+      echo "📱 Your APK should be ready: FlipkartAutomation.apk"
+      echo ""
+      echo "🔄 To rebuild: ./setup-gitpod.sh"
+
+ports:
+  - port: 8080
+    onOpen: ignore
+
+vscode:
+  extensions:
+    - vscjava.vscode-java-pack
+    - redhat.java
+    - ms-vscode.vscode-json
