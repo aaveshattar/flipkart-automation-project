@@ -29,11 +29,11 @@ log "Installing optimized build tools..."
 # Update system packages
 sudo apt-get update -qq >/dev/null 2>&1
  
-# Install Java 11 (required for Android)
-sudo apt-get install -y -qq openjdk-11-jdk wget unzip git curl htop >/dev/null 2>&1
- 
+# Install Java 17 (required for Android Gradle Plugin 8+)
+sudo apt-get install -y -qq openjdk-17-jdk wget unzip git curl htop >/dev/null 2>&1
+
 # Set Java environment
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
  
 # Verify Java installation
@@ -63,7 +63,8 @@ if [ ! -d "$ANDROID_HOME/cmdline-tools/latest" ]; then
     mv cmdline-tools/* "$ANDROID_HOME/cmdline-tools/latest/" 2>/dev/null || true
     rm -rf cmdline-tools
 fi
- 
+
+
 # Set Android environment variables
 export ANDROID_HOME
 export ANDROID_SDK_ROOT="$ANDROID_HOME"
@@ -178,7 +179,7 @@ if ./gradlew assembleRelease \
     success "🎉 BUILD SUCCESSFUL!"
     
     # Find and prepare APK
-    APK_PATH=$(find . -name "*-release.apk" -path "*/outputs/apk/release/*" | head -1)
+    APK_PATH=$(find . -name "app-release.apk" -path "*/outputs/apk/release/*" | head -1)
     
     if [ -n "$APK_PATH" ] && [ -f "$APK_PATH" ]; then
         APK_SIZE=$(du -h "$APK_PATH" | cut -f1)
