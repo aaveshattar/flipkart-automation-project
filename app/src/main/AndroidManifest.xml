@@ -1,33 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.automation.flipkart">
-
+ 
+    <!-- Android 13+ Required Permissions -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
     <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    
+    <!-- Android 13+ Notification Runtime Permission -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
+    
     <application
         android:allowBackup="true"
-        android:label="Flipkart Automation"
-        android:theme="@android:style/Theme.Material.Light">
-
+        android:label="Flipkart Ultra Automation"
+        android:theme="@android:style/Theme.DeviceDefault"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        tools:targetApi="33">
+ 
+        <!-- Main Accessibility Service - Ultra Fast -->
         <service
-            android:name=".service.OptimizedFlipkartAutomationService"
+            android:name=".service.UltraFastAccessibilityService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            android:exported="true">
+            android:exported="true"
+            android:foregroundServiceType="specialUse">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService"/>
             </intent-filter>
             <meta-data
                 android:name="android.accessibilityservice"
-                android:resource="@xml/accessibility_service_config"/>
+                android:resource="@xml/ultra_fast_accessibility_config"/>
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="automation"/>
         </service>
-
-        <service android:name=".service.AutomationForegroundService"
-            android:exported="true"/>
-
-        <receiver android:name=".service.AutomationAlarmReceiver"
-            android:exported="true"/>
-
+ 
+        <!-- Foreground Service for Background Processing -->
+        <service 
+            android:name=".service.UltraFastForegroundService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="automation"/>
+        </service>
+ 
+        <!-- Boot Receiver for Auto-Start -->
+        <receiver 
+            android:name=".service.BootReceiver"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+ 
     </application>
 </manifest>

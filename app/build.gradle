@@ -2,39 +2,94 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
 }
-
+ 
 android {
     namespace 'com.automation.flipkart'
     compileSdk 34
-
+ 
     defaultConfig {
         applicationId "com.automation.flipkart"
         minSdk 24
         targetSdk 34
         versionCode 1
-        versionName "1.0"
+        versionName "2.0-ultra"
+        
+        multiDexEnabled true
+        
+        ndk {
+            abiFilters 'arm64-v8a', 'armeabi-v7a'
+        }
     }
-
+ 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            
+            // Ultra performance optimizations
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            zipAlignEnabled true
+            
+            buildConfigField "boolean", "ENABLE_LOGGING", "false"
+        }
+        
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+            minifyEnabled false
+            buildConfigField "boolean", "ENABLE_LOGGING", "true"
         }
     }
     
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
+        freeCompilerArgs += [
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-opt-in=kotlin.time.ExperimentalTime",
+            "-Xjvm-default=all"
+        ]
+    }
+    
+    packagingOptions {
+        resources {
+            excludes += [
+                'META-INF/DEPENDENCIES',
+                'META-INF/LICENSE', 
+                'META-INF/LICENSE.txt',
+                'META-INF/NOTICE',
+                'META-INF/NOTICE.txt',
+                'META-INF/*.kotlin_module'
+            ]
+        }
+    }
+    
+    // Android 13+ compatibility
+    buildFeatures {
+        buildConfig true
     }
 }
-
+ 
 dependencies {
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+    
+    // Coroutines for ultra-fast async operations
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
-    implementation 'androidx.work:work-runtime-ktx:2.8.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
+    
+    // Performance and concurrency
+    implementation 'androidx.concurrent:concurrent-futures-ktx:1.1.0'
+    implementation 'androidx.work:work-runtime-ktx:2.9.0'
+    
+    // Android 13+ compatibility
+    implementation 'androidx.core:core-splashscreen:1.0.1'
 }
