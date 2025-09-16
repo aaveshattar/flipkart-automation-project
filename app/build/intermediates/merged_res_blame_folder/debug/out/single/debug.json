@@ -1,6 +1,14 @@
 [
     {
-        "merged": "com.automation.flipkart.app-merged_res-33:/xml_ultra_fast_accessibility_config.xml.flat",
-        "source": "com.automation.flipkart.app-main-35:/xml/ultra_fast_accessibility_config.xml"
+        "merged": "com.automation.flipkart.app-merged_res-33:/xml_backup_rules.xml.flat",
+        "source": "com.automation.flipkart.app-main-35:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.automation.flipkart.app-merged_res-33:/xml_data_extraction_rules.xml.flat",
+        "source": "com.automation.flipkart.app-main-35:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "/workspace/.gradle/daemon/8.4/com.automation.flipkart.app-merged_res-33:/xml_ultra_fast_accessibility_config.xml.flat",
+        "source": "/workspace/.gradle/daemon/8.4/com.automation.flipkart.app-main-35:/xml/ultra_fast_accessibility_config.xml"
     }
 ]
