@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-rules>
+    <!-- Include/exclude specific files or directories -->
+    <exclude domain="sharedpref" path="sensitive_prefs.xml"/>
+    <exclude domain="database" path="secret.db"/>
+    <!-- Allow everything else -->
+</full-backup-rules>
